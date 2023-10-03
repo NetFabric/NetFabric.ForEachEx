@@ -10,11 +10,11 @@ public static partial class Extensions
     {
         if (source.GetType() == typeof(T[]))
         {
-            ForEachEx(Unsafe.As<T[]>(source), ref action);
+            Unsafe.As<T[]>(source).ForEachEx(ref action);
         }
         else if (source.GetType() == typeof(List<T>))
         {
-            ForEachEx(Unsafe.As<List<T>>(source), ref action);
+            Unsafe.As<List<T>>(source).ForEachEx(ref action);
         }
         else
         {
@@ -26,7 +26,7 @@ public static partial class Extensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ForEachEx<T, TAction>(this List<T> source, ref TAction action)
         where TAction : struct, IAction<T>
-        => CollectionsMarshal.AsSpan(Unsafe.As<List<T>>(source)).ForEachEx(ref action);
+        => CollectionsMarshal.AsSpan(source).ForEachEx(ref action);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ForEachEx<T, TAction>(this T[] source, ref TAction action)

@@ -9,9 +9,7 @@ public class ForEachExBenchmarks
 {
     IEnumerable<int>? enumerable;
     List<int>? list;
-    IEnumerable<int>? listAsEnumerable;
     int[]? array;
-    IEnumerable<int>? arrayAsEnumerable;
 
     [Params(10, 1_000)]
     public int Count { get; set; }
@@ -28,9 +26,7 @@ public class ForEachExBenchmarks
     {
         enumerable = GetEnumerable(Count);
         list = enumerable.ToList();
-        listAsEnumerable = list;
         array = enumerable.ToArray();
-        arrayAsEnumerable = array;
     }
 
     [BenchmarkCategory("Enumerable")]
@@ -42,6 +38,11 @@ public class ForEachExBenchmarks
             sum += item;
         return sum;
     }
+
+    [BenchmarkCategory("Enumerable")]
+    [Benchmark]
+    public int Enumerable_Sum()
+        => enumerable!.Sum();
 
     [BenchmarkCategory("Enumerable")]
     [Benchmark]
@@ -65,7 +66,7 @@ public class ForEachExBenchmarks
     [Benchmark]
     public int Enumerable_ForEachEx_ValueAction()
     {
-        var sum = new SumAction<int>();
+        var sum = new SumValueAction<int>();
         enumerable!.ForEachEx(ref sum);
         return sum.Result;
     }
@@ -89,6 +90,11 @@ public class ForEachExBenchmarks
             sum += item;
         return sum;
     }
+
+    [BenchmarkCategory("List")]
+    [Benchmark]
+    public int List_Sum()
+        => list!.Sum();
 
     [BenchmarkCategory("List")]
     [Benchmark]
@@ -121,7 +127,7 @@ public class ForEachExBenchmarks
     [Benchmark]
     public int List_ForEachEx_ValueAction()
     {
-        var sum = new SumAction<int>();
+        var sum = new SumValueAction<int>();
         list!.ForEachEx(ref sum);
         return sum.Result;
     }
@@ -131,7 +137,7 @@ public class ForEachExBenchmarks
     public int ListAsEnumerable_ForEachEx_Action()
     {
         var sum = 0;
-        listAsEnumerable!.ForEachEx(item => sum += item);
+        ((IEnumerable<int>)list!).ForEachEx(item => sum += item);
         return sum;
     }
 
@@ -139,8 +145,8 @@ public class ForEachExBenchmarks
     [Benchmark]
     public int ListAsEnumerable_ForEachEx_ValueAction()
     {
-        var sum = new SumAction<int>();
-        listAsEnumerable!.ForEachEx(ref sum);
+        var sum = new SumValueAction<int>();
+        ((IEnumerable<int>)list!).ForEachEx(ref sum);
         return sum.Result;
     }
 
@@ -181,7 +187,7 @@ public class ForEachExBenchmarks
     [Benchmark]
     public int Array_ForEachEx_ValueAction()
     {
-        var sum = new SumAction<int>();
+        var sum = new SumValueAction<int>();
         array!.ForEachEx(ref sum);
         return sum.Result;
     }
@@ -191,7 +197,7 @@ public class ForEachExBenchmarks
     public int ArrayAsEnumerable_ForEachEx_Action()
     {
         var sum = 0;
-        arrayAsEnumerable!.ForEachEx(item => sum += item);
+        ((IEnumerable<int>)array!).ForEachEx(item => sum += item);
         return sum;
     }
 
@@ -199,8 +205,8 @@ public class ForEachExBenchmarks
     [Benchmark]
     public int ArrayAsEnumerable_ForEachEx_ValueAction()
     {
-        var sum = new SumAction<int>();
-        arrayAsEnumerable!.ForEachEx(ref sum);
+        var sum = new SumValueAction<int>();
+        ((IEnumerable<int>)array!).ForEachEx(ref sum);
         return sum.Result;
     }
 }

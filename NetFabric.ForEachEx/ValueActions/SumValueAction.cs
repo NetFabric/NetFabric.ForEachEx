@@ -1,4 +1,4 @@
-﻿#if NET7_0_OR_GREATER
+﻿#if NET7_0_OR_GREATER // Requires C# 7.0+ for IAdditiveIdentity<T, T> and IAdditionOperators<T, T, T>
 
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 namespace NetFabric;
 
 [StructLayout(LayoutKind.Auto)]
-public struct SumAction<T>
+public struct SumValueAction<T>
     : IAction<T>
     where T : struct, IAdditiveIdentity<T, T>, IAdditionOperators<T, T, T>
 {
@@ -15,7 +15,7 @@ public struct SumAction<T>
     T sum;
 #pragma warning restore IDE0032 // Use auto property
 
-    public SumAction()
+    public SumValueAction()
     {
         sum = T.AdditiveIdentity;
     }

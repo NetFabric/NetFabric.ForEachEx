@@ -6,7 +6,8 @@ public static partial class Extensions
     {
         if (action is null)
             Throw.ArgumentNullException(nameof(action));    
-        var actionWrapper = new ActionWrapper<T>(action);
+
+        var actionWrapper = new ActionWrapperValueAction<T>(action);
         source.ForEachEx(ref actionWrapper);
     }
 
@@ -14,7 +15,8 @@ public static partial class Extensions
     {
         if (action is null)
             Throw.ArgumentNullException(nameof(action));
-        var actionWrapper = new ActionWrapper<T>(action);
+
+        var actionWrapper = new ActionWrapperValueAction<T>(action);
         source.ForEachEx(ref actionWrapper);
     }
 
@@ -22,7 +24,8 @@ public static partial class Extensions
     {
         if (action is null)
             Throw.ArgumentNullException(nameof(action));
-        var actionWrapper = new ActionWrapper<T>(action);
+
+        var actionWrapper = new ActionWrapperValueAction<T>(action);
         source.ForEachEx(ref actionWrapper);
     }
 
@@ -30,7 +33,8 @@ public static partial class Extensions
     {
         if (action is null)
             Throw.ArgumentNullException(nameof(action));
-        var actionWrapper = new ActionWrapper<T>(action);
+
+        var actionWrapper = new ActionWrapperValueAction<T>(action);
         source.ForEachEx(ref actionWrapper);
     }
 
@@ -38,7 +42,8 @@ public static partial class Extensions
     {
         if (action is null)
             Throw.ArgumentNullException(nameof(action));
-        var actionWrapper = new ActionWrapper<T>(action);
+
+        var actionWrapper = new ActionWrapperValueAction<T>(action);
         source.ForEachEx(ref actionWrapper);
     }
 }
