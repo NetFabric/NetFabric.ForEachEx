@@ -108,22 +108,33 @@ public static partial class Extensions
         where T : struct
         where TAction : struct, IVectorAction<T>
     {
+        // Check if hardware acceleration is available and supported data types for SIMD operations.
         if (Vector.IsHardwareAccelerated &&
 #if NET7_0_OR_GREATER
             Vector<T>.IsSupported &&
 #endif
             source.Length > Vector<T>.Count)
         {
+            // Cast the source span into vectors of the specified data type.
             var vectors = MemoryMarshal.Cast<T, Vector<T>>(source);
+
+            // Iterate through the vectors and invoke the action on each vector.
             foreach (ref readonly var vector in vectors)
                 action.Invoke(in vector);
 
-            var remainder = source.Length % Vector<T>.Count;
-            source = source[^remainder..];
+            // Calculate the remaining elements after processing vectors.
+            var remaining = source.Length % Vector<T>.Count;
+
+            // Reduce the source span to the remaining elements for further processing.
+            source = source[^remaining..];
         }
+
+        // Iterate through the remaining elements (or all elements if not using SIMD operations)
+        // and invoke the action on each individual element.
         foreach (ref readonly var item in source)
         {
             action.Invoke(in item);
         }
     }
+
 }
