@@ -2,14 +2,14 @@
 
 namespace NetFabric.ForEachEx.UnitTests;
 
-struct MoqValueAction<T> : IAction<T>
+readonly struct MoqValueAction<T> : IAction<T>
     where T : struct
 {
     readonly List<T> values;
 
     public MoqValueAction()
     {
-        values = new List<T>();
+        values = [];
     }
 
     public IReadOnlyList<T> Values
