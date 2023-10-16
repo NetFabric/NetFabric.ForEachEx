@@ -1,4 +1,4 @@
-﻿namespace NetFabric.ForEach.UnitTests;
+﻿namespace NetFabric.ForEachEx.UnitTests;
 
 public class ForEachExValueActionTests
 {

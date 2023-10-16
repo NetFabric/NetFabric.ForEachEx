@@ -3,9 +3,6 @@ using System.Runtime.InteropServices;
 
 namespace NetFabric;
 
-/// <summary>
-/// A collection of extension methods that provide advanced "ForEach" functionality for various collection types.
-/// </summary>
 public static partial class Extensions
 {
     /// <summary>
@@ -34,7 +31,7 @@ public static partial class Extensions
         else
         {
             foreach (var item in source)
-                action.Invoke(item);
+                action.Invoke(in item);
         }
     }
 
@@ -106,6 +103,6 @@ public static partial class Extensions
         where TAction : struct, IAction<T>
     {
         foreach (ref readonly var item in source)
-            action.Invoke(item);
+            action.Invoke(in item);
     }
 }

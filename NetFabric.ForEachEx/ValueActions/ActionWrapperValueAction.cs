@@ -26,6 +26,6 @@ public readonly struct ActionWrapperValueAction<T> : IAction<T>
     /// </summary>
     /// <param name="arg">The argument to be passed to the wrapped action.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Invoke(T arg)
+    public void Invoke(ref readonly T arg)
         => action(arg);
 }

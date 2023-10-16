@@ -1,21 +1,22 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace NetFabric.ForEach.UnitTests;
+namespace NetFabric.ForEachEx.UnitTests;
 
 struct MoqValueAction<T> : IAction<T>
     where T : struct
 {
-    List<T> values;
+    readonly List<T> values;
 
     public MoqValueAction()
     {
         values = new List<T>();
     }
 
-    public IReadOnlyList<T> Values 
+    public IReadOnlyList<T> Values
         => values;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Invoke(T arg) 
+    public readonly void Invoke(ref readonly T arg)
         => values.Add(arg);
 }
+

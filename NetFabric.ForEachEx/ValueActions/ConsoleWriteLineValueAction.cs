@@ -17,6 +17,6 @@ public readonly struct ConsoleWriteLineValueAction<T> : IAction<T>
     /// </summary>
     /// <param name="item">The item to be written to the console.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Invoke(T item)
+    public void Invoke(ref readonly T item)
         => Console.WriteLine(item);
 }
