@@ -39,28 +39,12 @@ namespace NetFabric
         public readonly T Result
             => Vector.Sum(sumVector) + sum;
 
-        /// <summary>
-        /// Invokes the action with a readonly reference to the specified argument of type <typeparamref name="T"/>.
-        /// </summary>
-        /// <param name="item">The readonly reference to the argument of type <typeparamref name="T"/> to be processed by the action.</param>
-        /// <remarks>
-        /// This method performs an operation by adding the provided argument to an internal accumulator. The use of a readonly reference
-        /// ensures that the provided argument is not modified during the operation.
-        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Invoke(ref readonly T item) 
+        void IAction<T>.Invoke(ref readonly T item) 
             => sum += item;
 
-        /// <summary>
-        /// Invokes the action with a readonly reference to the specified <see cref="Vector{T}"/> argument of type <typeparamref name="T"/>.
-        /// </summary>
-        /// <param name="vector">The readonly reference to the <see cref="Vector{T}"/> argument to be processed by the action.</param>
-        /// <remarks>
-        /// This method performs a vectorized operation by adding the elements of the provided <see cref="Vector{T}"/> to an internal accumulator.
-        /// The use of a readonly reference ensures that the provided vector is not modified during the operation.
-        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Invoke(ref readonly Vector<T> vector)
+        void IVectorAction<T>.Invoke(ref readonly Vector<T> vector)
             => sumVector += vector;
     }
 }

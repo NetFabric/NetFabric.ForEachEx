@@ -18,11 +18,7 @@ public readonly struct ActionWrapperValueAction<T>(Action<T> action) : IAction<T
 {
     readonly Action<T> action = action ?? Throw.ArgumentNullException<Action<T>>(nameof(action));
 
-    /// <summary>
-    /// Invokes the wrapped action with the specified argument.
-    /// </summary>
-    /// <param name="arg">The argument to be passed to the wrapped action.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Invoke(ref readonly T arg)
+    void IAction<T>.Invoke(ref readonly T arg)
         => action(arg);
 }
