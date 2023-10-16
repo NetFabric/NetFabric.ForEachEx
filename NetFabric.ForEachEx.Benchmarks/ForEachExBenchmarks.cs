@@ -134,6 +134,15 @@ public class ForEachExBenchmarks
 
     [BenchmarkCategory("List")]
     [Benchmark]
+    public int List_ForEachEx_ValueVectorAction()
+    {
+        var sum = new SumValueAction<int>();
+        list!.ForEachVectorEx(ref sum);
+        return sum.Result;
+    }
+
+    [BenchmarkCategory("List")]
+    [Benchmark]
     public int ListAsEnumerable_ForEachEx_Action()
     {
         var sum = 0;
@@ -189,6 +198,15 @@ public class ForEachExBenchmarks
     {
         var sum = new SumValueAction<int>();
         array!.ForEachEx(ref sum);
+        return sum.Result;
+    }
+
+    [BenchmarkCategory("Array")]
+    [Benchmark]
+    public int Array_ForEachEx_ValueVectorAction()
+    {
+        var sum = new SumValueAction<int>();
+        array!.ForEachVectorEx(ref sum);
         return sum.Result;
     }
 
