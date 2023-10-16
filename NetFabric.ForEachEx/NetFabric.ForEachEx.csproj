@@ -4,7 +4,7 @@
     <Title>NetFabric.ForEachEx</Title>
     <TargetFrameworks>net5.0;net7.0</TargetFrameworks>
     <Description>Enhances the functionality of the ForEach method, making it available for use with all types of collections.</Description>
-    <Version>1.0.0</Version>
+    <Version>2.0.0</Version>
     <Copyright>Copyright © Antão Almada 2023</Copyright>
     <Authors>Antão Almada</Authors>
     <Company>NetFabric</Company>
@@ -13,6 +13,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags></PackageTags>
     <PackageReleaseNotes>
+      Changed Invoke() in IAction to take a ref T parameter.
     </PackageReleaseNotes>
     <RootNamespace>NetFabric</RootNamespace>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
