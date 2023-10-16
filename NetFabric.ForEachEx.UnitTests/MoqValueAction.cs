@@ -7,16 +7,14 @@ readonly struct MoqValueAction<T> : IAction<T>
 {
     readonly List<T> values;
 
-    public MoqValueAction()
-    {
-        values = [];
-    }
+    public MoqValueAction() 
+        => values = [];
 
     public IReadOnlyList<T> Values
         => values;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public readonly void Invoke(ref readonly T arg)
-        => values.Add(arg);
+    readonly void IAction<T>.Invoke(ref readonly T arg)
+            => values.Add(arg);
 }
 

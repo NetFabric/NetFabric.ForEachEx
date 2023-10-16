@@ -11,12 +11,7 @@ namespace NetFabric;
 [StructLayout(LayoutKind.Auto)]
 public readonly struct ConsoleWriteLineValueAction<T> : IAction<T>
 {
-    /// <summary>
-    /// Invokes the <see cref="Console.WriteLine"/> method with the specified item as its argument,
-    /// writing the item's string representation to the console followed by a line terminator.
-    /// </summary>
-    /// <param name="item">The item to be written to the console.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Invoke(ref readonly T item)
+    void IAction<T>.Invoke(ref readonly T item)
         => Console.WriteLine(item);
 }
