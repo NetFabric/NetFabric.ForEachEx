@@ -14,6 +14,7 @@
     <PackageTags></PackageTags>
     <PackageReleaseNotes>
       Changed Invoke() in IAction to take a ref T parameter.
+      Add support for vectorization (SIMD).
     </PackageReleaseNotes>
     <RootNamespace>NetFabric</RootNamespace>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>

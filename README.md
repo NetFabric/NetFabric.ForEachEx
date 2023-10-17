@@ -12,6 +12,8 @@ The NetFabric.ForEachEx package is a valuable addition to your .NET projects tha
 
 - **Custom Value Actions**: Easily create custom value actions to perform operations on enumerable elements efficiently, all while avoiding heap allocations.
 
+- **Vectorization (SIMD) support**: Take advantage of vectorization (SIMD) support using `ForEachVectorEx` to improve the performance of your code.
+
 ## Installation
 
 You can easily add the NetFabric.ForEachEx package to your .NET project using NuGet Package Manager. Simply run the following command in your project directory:
@@ -71,7 +73,26 @@ values.ForEachEx(customAction); // Apply the custom action to the enumerable
 
 In this example, the `CustomValueAction<T>` struct is implemented to perform a custom action on each element of the `values` enumerable. You can define your logic inside the `Invoke` method of your custom value action.
 
+You can also take advantage of vectorization (SIMD) support using the `ForEachVectorEx` method. Here's an example using the provided `SumValueAction` to summ all the items of the collection:
+
+```csharp
+using NetFabric;
+
+// ...
+
+var myList = new List<int> { 1, 2, 3, 4, 5 };
+var action = new SumValueAction<int>();
+myList.ForEachVectorEx(action);
+var sum = action.Result;
+```
+
+You can find how to implement a value action that support vectorization by checking the source code of the `SumValueAction` class.
+
 With the NetFabric.ForEachEx package, you can easily apply the `ForEachEx` method to various enumerable types while also benefiting from the fact that value actions do not allocate on the heap, unlike lambda expressions. This can lead to improved memory efficiency in your code.
+
+## Benchmarks
+
+The latest benchmarks for the NetFabric.ForEachEx package can be found in [BENCHMARKS.md](https://github.com/NetFabric/NetFabric.ForEachEx/blob/main/BENCHMARKS.md).
 
 ## Contribution
 
