@@ -22,13 +22,9 @@ public static partial class Extensions
         where T : struct
         where TAction : struct, IVectorAction<T>
     {
-        if (source.GetType() == typeof(T[]))
+        if (source.TryGetSpan(out var span))
         {
-            Unsafe.As<T[]>(source).ForEachEx(ref action);
-        }
-        else if (source.GetType() == typeof(List<T>))
-        {
-            Unsafe.As<List<T>>(source).ForEachEx(ref action);
+            span.ForEachEx(ref action);
         }
         else
         {

@@ -86,6 +86,22 @@ public class ForEachExValueActionTests
 
     [Theory]
     [MemberData(nameof(Data))]
+    public void ForEachEx_On_Array_AsEnumerable_String_Should_Succeed(IEnumerable<int> source)
+    {
+        // arrange
+        var action = new MoqValueAction<string>();
+        var expected = source.Select(item => item.ToString());
+        var enumerable = expected.ToArray() as IEnumerable<string>;
+
+        // act
+        enumerable.ForEachEx(ref action);
+
+        // assert
+        Assert.Equal(expected, action.Values);
+    }
+
+    [Theory]
+    [MemberData(nameof(Data))]
     public void ForEachEx_On_Span_Should_Succeed(IEnumerable<int> source)
     {
         // arrange

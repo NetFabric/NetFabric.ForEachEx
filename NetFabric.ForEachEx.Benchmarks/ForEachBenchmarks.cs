@@ -17,16 +17,9 @@ public class ForEachBenchmarks
     [GlobalSetup]
     public void GlobalSetup()
     {
-        enumerable = GetEnumerable(Count);
+        enumerable = Utils.GetEnumerable(Count);
         list = enumerable.ToList();
         array = enumerable.ToArray();
-
-        static IEnumerable<int> GetEnumerable(int count)
-        {
-            var random = new Random(42);
-            for (var item = 0; item < count; item++)
-                yield return random.Next(count);
-        }
     }
 
     [BenchmarkCategory("Enumerable")]

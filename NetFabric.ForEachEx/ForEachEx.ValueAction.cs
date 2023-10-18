@@ -20,13 +20,9 @@ public static partial class Extensions
     public static void ForEachEx<T, TAction>(this IEnumerable<T> source, ref TAction action)
         where TAction : struct, IAction<T>
     {
-        if (source.GetType() == typeof(T[]))
+        if (source.TryGetSpan(out var span))
         {
-            Unsafe.As<T[]>(source).ForEachEx(ref action);
-        }
-        else if (source.GetType() == typeof(List<T>))
-        {
-            Unsafe.As<List<T>>(source).ForEachEx(ref action);
+            span.ForEachEx(ref action);
         }
         else
         {

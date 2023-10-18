@@ -1,11 +1,13 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Runtime.InteropServices;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
 using NetFabric;
 
-public class ForEachVectorExBenchmarks
+public class ForEachExEnumerableBenchmarks
 {
     int[]? array;
 
-    [Params(10, 1_000)]
+    [Params(1_000)]
     public int Count { get; set; }
 
     [GlobalSetup]
@@ -16,20 +18,7 @@ public class ForEachVectorExBenchmarks
     }
 
     [Benchmark(Baseline = true)]
-    public int Array_foreach()
-    {
-        var sum = 0;
-        foreach (var item in array!)
-            sum += item;
-        return sum;
-    }
-
-    [Benchmark]
-    public int Array_Sum()
-        => array!.Sum();
-
-    [Benchmark]
-    public int Array_ForEachEx_ValueAction()
+    public int Array()
     {
         var sum = new SumValueAction<int>();
         array!.ForEachEx(ref sum);
@@ -37,10 +26,10 @@ public class ForEachVectorExBenchmarks
     }
 
     [Benchmark]
-    public int Array_ForEachEx_ValueVectorAction()
+    public int Array_AsEnumerable()
     {
         var sum = new SumValueAction<int>();
-        array!.ForEachVectorEx(ref sum);
+        ((IEnumerable<int>)array!).ForEachEx(ref sum);
         return sum.Result;
     }
 }

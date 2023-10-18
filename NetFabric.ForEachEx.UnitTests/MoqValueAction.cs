@@ -3,7 +3,6 @@
 namespace NetFabric.ForEachEx.UnitTests;
 
 readonly struct MoqValueAction<T> : IAction<T>
-    where T : struct
 {
     readonly List<T> values;
 
