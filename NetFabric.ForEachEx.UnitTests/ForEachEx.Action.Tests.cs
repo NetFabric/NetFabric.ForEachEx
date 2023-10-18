@@ -1,6 +1,6 @@
 ﻿namespace NetFabric.ForEachEx.UnitTests;
 
-public class ForEachExExActionTests
+public class ForEachExActionTests
 {
     public static TheoryData<IEnumerable<int>> Data => new()
     {
