@@ -17,6 +17,7 @@ public static partial class Extensions
     /// This method enables custom actions to be applied to each element in a collection efficiently
     /// by using a value-based action implementation, minimizing overhead.
     /// </remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ForEachEx<T, TAction>(this IEnumerable<T> source, ref TAction action)
         where TAction : struct, IAction<T>
     {
@@ -98,7 +99,31 @@ public static partial class Extensions
     public static void ForEachEx<T, TAction>(this ReadOnlySpan<T> source, ref TAction action)
         where TAction : struct, IAction<T>
     {
-        foreach (ref readonly var item in source)
-            action.Invoke(in item);
+#if NET7_0_OR_GREATER
+        var index = nint.Zero;
+#else
+        var index = (nint)0;
+#endif
+
+        // use a reference to elide bound chacks
+        ref var sourceRef = ref MemoryMarshal.GetReference(source);
+
+        // unroll iteration for improved performance
+        var end = source.Length - (source.Length % 4);
+        while (index < end)
+        {
+            action.Invoke(in Unsafe.Add(ref sourceRef, index));
+            action.Invoke(in Unsafe.Add(ref sourceRef, index + 1));
+            action.Invoke(in Unsafe.Add(ref sourceRef, index + 2));
+            action.Invoke(in Unsafe.Add(ref sourceRef, index + 3));
+            index += 4;
+        }
+
+        // handle remaining elements
+        while (index < source.Length)
+        {
+            action.Invoke(in Unsafe.Add(ref sourceRef, index));
+            index++;
+        }
     }
 }

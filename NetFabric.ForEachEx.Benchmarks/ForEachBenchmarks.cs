@@ -11,13 +11,13 @@ public class ForEachBenchmarks
     List<int>? list;
     int[]? array;
 
-    [Params(10, 1_000)]
+    [Params(10, 10_000)]
     public int Count { get; set; }
 
     [GlobalSetup]
     public void GlobalSetup()
     {
-        enumerable = Utils.GetEnumerable(Count);
+        enumerable = Utils.GetEnumerable(Count, 100);
         list = enumerable.ToList();
         array = enumerable.ToArray();
     }

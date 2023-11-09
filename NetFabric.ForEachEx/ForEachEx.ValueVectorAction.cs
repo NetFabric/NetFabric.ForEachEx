@@ -18,6 +18,7 @@ public static partial class Extensions
     /// This method streamlines the process of iterating through a collection and applying a custom action to each element
     /// efficiently by leveraging vectorization (SIMD) for enhanced performance on supported types and compatible hardware.
     /// </remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ForEachVectorEx<T, TAction>(this IEnumerable<T> source, ref TAction action)
         where T : struct
         where TAction : struct, IVectorAction<T>
@@ -104,6 +105,12 @@ public static partial class Extensions
         where T : struct
         where TAction : struct, IVectorAction<T>
     {
+#if NET7_0_OR_GREATER
+        var index = nint.Zero;
+#else
+        var index = (nint)0;
+#endif
+
         // Check if hardware acceleration is available and supported data types for SIMD operations.
         if (Vector.IsHardwareAccelerated &&
 #if NET7_0_OR_GREATER
@@ -119,18 +126,31 @@ public static partial class Extensions
                 action.Invoke(in vector);
 
             // Calculate the remaining elements after processing vectors.
-            var remaining = source.Length % Vector<T>.Count;
-
-            // Reduce the source span to the remaining elements for further processing.
-            source = source[^remaining..];
+            index = source.Length - (source.Length % Vector<T>.Count);
         }
 
         // Iterate through the remaining elements (or all elements if not using SIMD operations)
         // and invoke the action on each individual element.
-        foreach (ref readonly var item in source)
+
+        // use a reference to elide bound checks
+        ref var sourceRef = ref MemoryMarshal.GetReference(source);
+
+        // unroll iteration for improved performance
+        var end = source.Length - (source.Length % 4);
+        while (index < end)
         {
-            action.Invoke(in item);
+            action.Invoke(in Unsafe.Add(ref sourceRef, index));
+            action.Invoke(in Unsafe.Add(ref sourceRef, index + 1));
+            action.Invoke(in Unsafe.Add(ref sourceRef, index + 2));
+            action.Invoke(in Unsafe.Add(ref sourceRef, index + 3));
+            index += 4;
+        }
+
+        // handle remaining elements
+        while (index < source.Length)
+        {
+            action.Invoke(in Unsafe.Add(ref sourceRef, index));
+            index++;
         }
     }
-
 }
