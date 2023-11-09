@@ -7,13 +7,13 @@ public class ForEachExEnumerableBenchmarks
 {
     int[]? array;
 
-    [Params(1_000)]
+    [Params(10_000)]
     public int Count { get; set; }
 
     [GlobalSetup]
     public void GlobalSetup()
     {
-        var enumerable = Utils.GetEnumerable(Count);
+        var enumerable = Utils.GetEnumerable(Count, 100);
         array = enumerable.ToArray();
     }
 

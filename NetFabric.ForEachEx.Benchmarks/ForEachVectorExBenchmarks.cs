@@ -5,13 +5,13 @@ public class ForEachVectorExBenchmarks
 {
     int[]? array;
 
-    [Params(10, 1_000)]
+    [Params(10, 10_000)]
     public int Count { get; set; }
 
     [GlobalSetup]
     public void GlobalSetup()
     {
-        var enumerable = Utils.GetEnumerable(Count);
+        var enumerable = Utils.GetEnumerable(Count, 100);
         array = enumerable.ToArray();
     }
 
